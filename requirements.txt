@@ -1,0 +1,6 @@
+requests
+pandas
+openai
+gradio
+python-dotenv
+weaviate-client
