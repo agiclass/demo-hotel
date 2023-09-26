@@ -1,14 +1,18 @@
 import json
-from utils import deserialize, complete_minimax
+
+from utils import complete_minimax, deserialize
+
 
 # 拼装用于NLU的prompt模版
 def generate_prompt(input_text):
     instruction = """
       你的任务是识别用户对酒店的选择条件
-      酒店包含8个属性，分别是：名称(name)、酒店类型(type)、地址(address)、地铁(subway)、电话(phone)、价格(price)、评分(rating)、酒店设施(facilities)。其中酒店类型的取值只有以下四种：豪华型, 经济型, 舒适型, 高档型
+      酒店包含8个属性，分别是：名称(name)、电话(phone)、地址(address)、地铁(subway)、
+      酒店类型(type)、价格(price)、评分(rating)、酒店设施(facilities)。
+      其中酒店类型的取值只有以下四种：豪华型, 经济型, 舒适型, 高档型
     """
     output_format = """
-      以JSON格式输出，包含字段如下 #不要编造此外的字段# 
+      以JSON格式输出，包含字段如下 #不要编造此外的字段#
       #output JSON only# #no acknowledgement# #no comment#
         - name: string类型
         - type: string类型，取值范围：'豪华型', '经济型', '舒适型', '高档型'
@@ -35,20 +39,21 @@ def generate_prompt(input_text):
     """
     prompt = f"""
       {instruction}
-      
+
       {output_format}
-      
+
       examples:
       {examples}
-      
+
       user input：
       {input_text}
     """
     return prompt
 
+
 def nlu(input_text):
     prompt = generate_prompt(input_text)
     reply = complete_minimax(prompt)
     reply = deserialize(reply)
-    print(json.dumps(reply, ensure_ascii=False, indent=2))
+    # print(json.dumps(reply, ensure_ascii=False, indent=2))
     return reply

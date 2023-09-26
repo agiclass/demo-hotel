@@ -1,28 +1,56 @@
 """CLI interface for hotel_chatbot project.
-
-Be creative! do whatever you want!
-
-- Install click or typer and create a CLI app
-- Use builtin argparse
-- Start a web application
-- Import things from your .base module
 """
+import json
+
+import typer
+import wcwidth
+from db import HotelDB
+from dm import DialogManager
+from nlu import nlu
+from tabulate import tabulate
 
 
-def main():  # pragma: no cover
+def run_typer_chatbot():  # pragma: no cover
+    help = """
+    ====== hotel chatbot =====
+    - input "exit" to exit chat
+    - input "create" to create db table schema
+    - input "insert" to insert data into db
+    - input "delete" to delete db table
+    ==========================
     """
-    The main function executes on commands:
-    `python -m hotel_chatbot` and `$ hotel_chatbot `.
+    typer.secho(help, fg=typer.colors.GREEN)
+    db = HotelDB()
+    dm = DialogManager()
+    while True:
+        user_input = typer.prompt("User: ", prompt_suffix="")
+        if user_input.lower() == "exit":
+            typer.echo("Chatbot: Goodbye!")
+            break
+        elif user_input.lower() == "create":
+            db.create(name="Hotel")
+            typer.secho("created table", fg=typer.colors.RED)
+        elif user_input.lower() == "insert":
+            with open("../data/hotel.json", "r") as f:
+                hotels = json.load(f)
+            db.insert(hotels[:200])
+            typer.secho("insert table", fg=typer.colors.RED)
+        elif user_input.lower() == "delete":
+            db.delete(name="Hotel")
+            typer.secho("delete table", fg=typer.colors.RED)
+        else:
+            state = nlu(user_input)
+            dm.update_state(state)
+            candidates = db.search(
+                dm.get_state(), output_fields=["name", "rating", "price"]
+            )
+            keys = list(candidates[0].keys())
+            keys.remove("hotel_id")
+            table = [[candidate[k] for k in keys] for candidate in candidates]
+            table = [keys] + table
+            table = tabulate(table, headers="firstrow", tablefmt="fancy_grid")
+            typer.secho(table, fg=typer.colors.BRIGHT_BLUE)
 
-    This is your program's entry point.
 
-    You can change this function to do whatever you want.
-    Examples:
-        * Run a test suite
-        * Run a server
-        * Do some other stuff
-        * Run a command line application (Click, Typer, ArgParse)
-        * List all available tasks
-        * Run an application (Flask, FastAPI, Django, etc.)
-    """
-    print("This will do something")
+if __name__ == "__main__":  # pragma: no cover
+    run_typer_chatbot()

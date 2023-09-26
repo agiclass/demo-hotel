@@ -1,2 +1,5 @@
 site_name: hotel_chatbot
 theme: readthedocs
+nav:
+  - Design: index.md
+  - Database: database.md

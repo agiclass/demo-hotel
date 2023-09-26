@@ -1,6 +1,9 @@
-requests
-pandas
-openai
-gradio
-python-dotenv
-weaviate-client
+requests==2.31.0
+pandas==2.1.1
+openai==0.28.0
+gradio==3.44.4
+typer==0.9.0
+tabulate==0.9.0
+wcwidth==0.2.6
+python-dotenv==1.0.0
+weaviate-client==3.24.1 
