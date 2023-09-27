@@ -1,8 +1,9 @@
 import gradio as gr
 import pandas as pd
-from db import HotelDB
-from dm import DialogManager
-from nlu import nlu
+
+from hotel_chatbot.db import HotelDB
+from hotel_chatbot.dm import DialogManager
+from hotel_chatbot.nlu import nlu
 
 
 def run_gradio_chatbot():

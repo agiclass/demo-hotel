@@ -33,7 +33,7 @@ setup(
     name="hotel_chatbot",
     version=read("hotel_chatbot", "VERSION"),
     description="Awesome hotel_chatbot created by toddlt",
-    url="https://github.com/toddlt/hotel-chatbot/",
+    url="https://github.com/agiclass/hotel-chatbot/",
     long_description=read("README.md"),
     long_description_content_type="text/markdown",
     author="toddlt",

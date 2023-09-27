@@ -4,20 +4,21 @@ import json
 
 import typer
 import wcwidth
-from db import HotelDB
-from dm import DialogManager
-from nlu import nlu
 from tabulate import tabulate
+
+from hotel_chatbot.db import HotelDB
+from hotel_chatbot.dm import DialogManager
+from hotel_chatbot.nlu import nlu
 
 
 def run_typer_chatbot():  # pragma: no cover
     help = """
-    ====== hotel chatbot =====
-    - input "exit" to exit chat
+    ================ hotel chatbot ===============
+    - input "exit" to exit hotel search chat
     - input "create" to create db table schema
     - input "insert" to insert data into db
     - input "delete" to delete db table
-    ==========================
+    ==============================================
     """
     typer.secho(help, fg=typer.colors.GREEN)
     db = HotelDB()
@@ -25,7 +26,7 @@ def run_typer_chatbot():  # pragma: no cover
     while True:
         user_input = typer.prompt("User: ", prompt_suffix="")
         if user_input.lower() == "exit":
-            typer.echo("Chatbot: Goodbye!")
+            typer.secho("Chatbot: Goodbye!", fg=typer.colors.GREEN)
             break
         elif user_input.lower() == "create":
             db.create(name="Hotel")

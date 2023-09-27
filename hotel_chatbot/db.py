@@ -20,9 +20,18 @@ def rrf(rankings, k=60):
 
 class HotelDB:
     def __init__(self, ip="localhost", port=8080):
-        url = f"http://{ip}:{port}"
         header = {"X-OpenAI-Api-Key": os.getenv("OPENAI_API_KEY")}
-        self.client = Client(url=url, additional_headers=header)
+        try:
+            url = f"http://{ip}:{port}"
+            self.client = Client(
+                url=url, additional_headers=header, timeout_config=(3, 10)
+            )
+        except Exception:
+            ip = "weaviate"
+            url = f"http://{ip}:{port}"
+            self.client = Client(
+                url=url, additional_headers=header, timeout_config=(3, 10)
+            )
 
     def create(self, name="Hotel"):
         schema = {

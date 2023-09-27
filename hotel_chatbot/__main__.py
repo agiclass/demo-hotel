@@ -1,9 +1,22 @@
 """Entry point for hotel_chatbot."""
 
-from cli import run_typer_chatbot  # pragma: no cover
-from web import run_gradio_chatbot  # pragma: no cover
+import typer
+
+from hotel_chatbot.cli import run_typer_chatbot  # pragma: no cover
+from hotel_chatbot.web import run_gradio_chatbot  # pragma: no cover
+
+app = typer.Typer()
+
+
+@app.command()
+def web():
+    run_gradio_chatbot()
+
+
+@app.command()
+def cli():
+    run_typer_chatbot()
+
 
 if __name__ == "__main__":  # pragma: no cover
-    # TODO add args to select web ui and cli ui
-    # run_gradio_chatbot()
-    run_typer_chatbot()
+    app()

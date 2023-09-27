@@ -1,6 +1,6 @@
 import json
 
-from utils import complete_minimax, deserialize
+from hotel_chatbot.utils import complete_minimax, deserialize
 
 
 # 拼装用于NLU的prompt模版
