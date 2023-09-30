@@ -166,6 +166,8 @@ class HotelDB:
         limit=10,
     ):
         candidates = []
+        if not dsl:
+            return []
         if "hotel_id" not in output_fields:  # rrf排序中使用hotel_id
             output_fields.append("hotel_id")
         # ===================== assemble filters ========================= #
@@ -218,6 +220,14 @@ class HotelDB:
                         "valueNumber": dsl["rating.range.high"],
                     }
                 )
+            # 补丁，过滤掉未给价格的-1值
+            filters.append(
+                {
+                    "path": ["price"],
+                    "operator": "GreaterThan",
+                    "valueNumber": 0,
+                }
+            )
         if (len(filters)) == 1:
             filters = filters[0]
         elif len(filters) > 1:

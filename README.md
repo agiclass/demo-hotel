@@ -30,4 +30,5 @@
 <img src=docs/media/screenshot-cli.png width=300 />
 
 网页界面：
+
 <img src=docs/media/screenshot-web.png width=600 />
