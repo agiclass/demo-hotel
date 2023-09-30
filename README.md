@@ -27,7 +27,7 @@
 
 命令界面：
 
-<img src=docs/media/screenshot-cli.png width=300 />
+<img src=docs/media/screenshot-cli.png width=450 />
 
 网页界面：
 
