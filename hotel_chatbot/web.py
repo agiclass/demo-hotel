@@ -37,7 +37,7 @@ def run_gradio_chatbot():
         fn=chatbot_for_hotel, inputs="text", outputs=["text","dataframe"]
     )
 
-    interface.launch()
+    interface.launch(port=7800)
 
 
 if __name__ == "__main__":  # pragma: no cover
