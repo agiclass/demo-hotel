@@ -2,9 +2,14 @@ import os
 import re
 
 from tqdm import tqdm
+import weaviate
 from weaviate import Client
 from weaviate.util import generate_uuid5
+from dotenv import load_dotenv
+load_dotenv()
 
+weaviate_url = os.environ.get("WEAVIATE_URL", "")
+weaviate_key = os.environ.get("WEAVIATE_API_KEY", "")
 
 def rrf(rankings, k=60):
     scores = dict()
@@ -21,17 +26,28 @@ def rrf(rankings, k=60):
 class HotelDB:
     def __init__(self, ip="localhost", port=8080):
         header = {"X-OpenAI-Api-Key": os.getenv("OPENAI_API_KEY")}
-        try:
-            url = f"http://{ip}:{port}"
-            self.client = Client(
-                url=url, additional_headers=header, timeout_config=(3, 10)
-            )
-        except Exception:
-            ip = "weaviate"
-            url = f"http://{ip}:{port}"
-            self.client = Client(
-                url=url, additional_headers=header, timeout_config=(3, 10)
-            )
+
+        url = weaviate_url
+        auth_config = weaviate.AuthApiKey(api_key=weaviate_key)
+
+        self.client = weaviate.Client(
+            url=url,
+            additional_headers=header,
+            auth_client_secret=auth_config,
+        )
+
+        # try:
+        #     url = os.getenv("WEAVIATE_URL")
+        #     # url = f"http://{ip}:{port}"
+        #     self.client = Client(
+        #         url=url, additional_headers=header, timeout_config=(3, 10)
+        #     )
+        # except Exception:
+        #     ip = "weaviate"
+        #     url = f"http://{ip}:{port}"
+        #     self.client = Client(
+        #         url=url, additional_headers=header, timeout_config=(3, 10)
+        #     )
 
     def create(self, name="Hotel"):
         schema = {
