@@ -65,7 +65,7 @@ python -m hotel_chatbot cli
 
 第二步输入：`insert` #用于初始化数据
 
-#### 第四步：启动 web 界面
+### 第四步：启动 web 界面
 ```
 python -m hotel_chatbot web
 ```
