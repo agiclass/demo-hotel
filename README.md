@@ -17,18 +17,80 @@
 
 ## 安装与使用
 
-1. 使用conda或venv创建python虚拟环境
-2. 安装依赖 `pip install -r requirements.txt`
-3. 使用Docker启动向量数据库服务 `docker-compose up -d`
-4. 运行主脚本 `python -m hotel_chatbot --help`
-   - 网页界面 `python -m hotel_chatbot web`
-   - 命令界面 `python -m hotel_chatbot cli`
-5. 可安装到全局使用 `python setup.py install`
+### 第一步：安装依赖
 
-命令界面：
+```
+pip install -r requirements.txt
+```
 
+### 第二步：准备环境变量
+
+##### 进入项目目录，并且复制 `.env.example` 生成新的配置文件 `.env`
+
+```
+cp .env.example .env
+```
+
+##### 准备好环境变量：
+
+```.env 
+OPENAI_API_KEY=
+WEAVIATE_URL=
+WEAVIATE_API_KEY=
+```
+
+##### 去 OpenAI 官方获取
+
+`OPENAI_API_KEY` 从 OpenAI 官方获取 api 的 key
+
+##### 获取 weaviate 向量数据库相关配置
+
+去官网 https://console.weaviate.cloud/ 注册登录，可以免费创建向量数据库，然后复制相关配置
+`WEAVIATE_URL` 
+`WEAVIATE_API_KEY` 
+
+* 注意：免费的有效期 14天
+
+### 第三步：初始化数据
+
+##### 执行下面命令
+```
+python -m hotel_chatbot cli
+```
+
+##### 在弹出的界面输入：
+
+第一步输入：`create` #用于创建数据结构
+
+第二步输入：`insert` #用于初始化数据
+
+#### 第四步：启动 web 界面
+```
+python -m hotel_chatbot web
+```
+
+#### 建议问题：
+
+* 推荐一下奢华的酒店
+* 帮忙推荐一下可以打牌的酒店
+
+### 备注 
+1.查看帮助 `python -m hotel_chatbot --help`
+2.可安装到全局使用 `python setup.py install`
+
+### 如果你会 Docker
+
+可以私有化本地部署向量数据库，在根目录直接执行命令。
+
+连接数据库的配置需要更改
+
+```
+docker-compose up -d
+```
+
+#### Cli 提问方式
 <img src=docs/media/screenshot-cli.png width=450 />
 
-网页界面：
+#### web网页界面提问方式：
 
 <img src=docs/media/screenshot-web.png width=600 />
