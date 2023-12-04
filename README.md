@@ -32,6 +32,7 @@ cp .env.example .env
 ```
 
 ##### 准备好环境变量：
+ps: .env.example 给大家带的配置文件仅供参考
 
 ```.env 
 OPENAI_API_KEY=
