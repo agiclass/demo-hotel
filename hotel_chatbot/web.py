@@ -34,7 +34,10 @@ def run_gradio_chatbot():
         return reply.strip(), df
 
     interface = gr.Interface(
-        fn=chatbot_for_hotel, inputs="text", outputs=["text","dataframe"]
+        fn=chatbot_for_hotel,
+        inputs="text",
+        outputs=["text", "dataframe"],
+        examples=["推荐一下奢华的酒店", "帮忙推荐一下可以打牌的酒店", "我想带宠物住店"]
     )
 
     interface.launch(server_port=7800)
