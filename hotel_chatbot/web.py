@@ -35,9 +35,13 @@ def run_gradio_chatbot():
 
     interface = gr.Interface(
         fn=chatbot_for_hotel,
-        inputs="text",
-        outputs=["text", "dataframe"],
-        examples=["推荐一下奢华的酒店", "帮忙推荐一下可以打牌的酒店", "我想带宠物住店"]
+        inputs=gr.Textbox(label="需求", placeholder="请输入您对酒店的需求"),
+        outputs=[
+            gr.Textbox(label="回复"),
+            gr.Dataframe(label="酒店列表")
+        ],
+        examples=["推荐一下奢华的酒店", "机场附近的平价酒店", "我想带宠物住店"],
+        title="酒店智能推荐助手 demo",
     )
 
     interface.launch(server_port=7800)
