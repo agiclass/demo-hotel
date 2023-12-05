@@ -1,13 +1,12 @@
+import requests
 import json
 import os
+from openai import OpenAI
+from dotenv import find_dotenv, load_dotenv
 
-import openai
-import requests
+load_dotenv(find_dotenv())
 
-# from dotenv import find_dotenv, load_dotenv
-
-# load_dotenv(find_dotenv())
-openai.api_key = os.getenv("OPENAI_API_KEY")
+client = OpenAI()
 
 
 # 去除LLM返回JSON中为空的字段
@@ -89,20 +88,17 @@ def complete_minimax(prompt, model="abab5.5-chat"):
 
 def complete_openai(prompt, model="gpt-3.5-turbo-instruct"):
     if model == "gpt-3.5-turbo-instruct":
-        response = openai.Completion.create(
-            model=model, prompt=prompt, max_tokens=500, temperature=0
-        )
+        response = client.completions.create(
+            model=model, prompt=prompt, max_tokens=500, temperature=0)
         return response.choices[0].text
     else:
         messages = [{"role": "user", "content": prompt}]
-        response = openai.ChatCompletion.create(
-            model=model,
-            messages=messages,
-            temperature=0,
-        )
+        response = client.chat.completions.create(model=model,
+                                                  messages=messages,
+                                                  temperature=0)
         return response.choices[0].message["content"]
 
 
 def embedding_openai(text, model="text-embedding-ada-002"):
-    response = openai.Embedding.create(model=model, input=text)
+    response = client.embeddings.create(model=model, input=text)
     return response["data"][0]["embedding"]
