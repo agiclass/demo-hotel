@@ -44,7 +44,7 @@ def run_gradio_chatbot():
         title="酒店智能推荐助手 demo",
     )
 
-    interface.launch(server_port=7800,root_path="/cs/")
+    interface.launch(server_port=7800,root_path="/hotel/")
 
 
 if __name__ == "__main__":  # pragma: no cover
