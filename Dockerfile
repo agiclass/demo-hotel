@@ -1,5 +1,25 @@
-FROM python:3.9-slim
-COPY . /app
-WORKDIR /app
+FROM python:3.9
+
+ARG GRADIO_SERVER_PORT=7801
+ENV GRADIO_SERVER_PORT=${GRADIO_SERVER_PORT}
+
+WORKDIR /home
+
+# ADD requirements.txt main.py .env /home/
+COPY . /home
+
+RUN pip install -r /home/requirements.txt
+
 RUN pip install .
-CMD ["hotel_chatbot"]
+
+RUN apt-get update && apt-get install -y nginx
+
+RUN rm /etc/nginx/sites-enabled/default
+
+COPY nginx.conf /etc/nginx/sites-available/
+
+RUN ln -s /etc/nginx/sites-available/nginx.conf /etc/nginx/sites-enabled/nginx.conf
+
+EXPOSE ${GRADIO_SERVER_PORT} 80
+
+CMD service nginx start && python -m hotel_chatbot web
